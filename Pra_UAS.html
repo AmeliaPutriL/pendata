@@ -57,6 +57,8 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Pra_UAS';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -396,6 +398,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">Data Understanding</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pengumpulan-data">Pengumpulan Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data">Eksplorasi Data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data">Visualisasi Data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-fitur-dan-variabel">Penjelasan Fitur dan Variabel</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variabel-independen">Variabel Independen</a></li>
@@ -406,8 +409,18 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data">Preprocessing Data</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transformasi-data">Transformasi Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisai-data">Normalisai Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#split-data-training-dan-testing">Split Data Training dan Testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data-setelah-preprocessing">Visualisasi Data Setelah Preprocessing</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling">Modelling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling-klasifikasi-menggunakan-decision-tree">Modelling Klasifikasi Menggunakan Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling-klasifikasi-menggunakan-gaussian-naive-bayes">Modelling Klasifikasi Menggunakan Gaussian Naive Bayes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling-klasifikasi-menggunakan-k-nearest-neighbor-k-nn">Modelling Klasifikasi Menggunakan K-Nearest Neighbor (K-NN)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi-data">Evaluasi Data</a></li>
 </ul>
             </nav>
         </div>
@@ -437,10 +450,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting ucimlrepo
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Downloading ucimlrepo-0.0.7-py3-none-any.whl.metadata (5.5 kB)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: ucimlrepo in /usr/local/python/3.12.1/lib/python3.12/site-packages (0.0.7)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pandas&gt;=1.0.0 in /home/codespace/.local/lib/python3.12/site-packages (from ucimlrepo) (2.2.3)
@@ -452,13 +462,6 @@ Requirement already satisfied: python-dateutil&gt;=2.8.2 in /home/codespace/.loc
 Requirement already satisfied: pytz&gt;=2020.1 in /home/codespace/.local/lib/python3.12/site-packages (from pandas&gt;=1.0.0-&gt;ucimlrepo) (2024.2)
 Requirement already satisfied: tzdata&gt;=2022.7 in /home/codespace/.local/lib/python3.12/site-packages (from pandas&gt;=1.0.0-&gt;ucimlrepo) (2024.2)
 Requirement already satisfied: six&gt;=1.5 in /home/codespace/.local/lib/python3.12/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas&gt;=1.0.0-&gt;ucimlrepo) (1.17.0)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading ucimlrepo-0.0.7-py3-none-any.whl (8.0 kB)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Installing collected packages: ucimlrepo
-Successfully installed ucimlrepo-0.0.7
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> A new release of pip is available: <span class=" -Color -Color-Red">24.3.1</span> -&gt; <span class=" -Color -Color-Green">25.1.1</span>
@@ -532,15 +535,103 @@ Successfully installed ucimlrepo-0.0.7
 </div>
 </div>
 </section>
-<section id="visualisasi-data">
-<h3>Visualisasi Data<a class="headerlink" href="#visualisasi-data" title="Link to this heading">#</a></h3>
+<section id="eksplorasi-data">
+<h3>Eksplorasi Data<a class="headerlink" href="#eksplorasi-data" title="Link to this heading">#</a></h3>
+<p>Mengecek data apakah ada data yang outlier dan mengecek apakah ada missing value data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_wine</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Load dataset wine</span>
+<span class="n">wine_data</span> <span class="o">=</span> <span class="n">load_wine</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">wine_data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">wine_data</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
+
+<span class="c1"># Tambahkan kolom target (label)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wine_data</span><span class="o">.</span><span class="n">target</span>
+
+<span class="c1"># 1. CEK MISSING VALUE</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Missing Value per Kolom ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="c1"># 2. CEK OUTLIER</span>
+<span class="c1"># Metode: IQR (Interquartile Range)</span>
+
+<span class="k">def</span> <span class="nf">detect_outliers_iqr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+    <span class="n">Q1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">Q3</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
+    <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">Q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+    <span class="n">outliers</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">lower_bound</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">upper_bound</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">outliers</span>
+
+<span class="c1"># Cek outlier untuk setiap kolom numerik</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Jumlah Outlier per Kolom (IQR) ===&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># kecuali kolom target</span>
+    <span class="n">outliers</span> <span class="o">=</span> <span class="n">detect_outliers_iqr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">outliers</span><span class="p">)</span><span class="si">}</span><span class="s2"> outliers&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Missing Value per Kolom ===
+alcohol                         0
+malic_acid                      0
+ash                             0
+alcalinity_of_ash               0
+magnesium                       0
+total_phenols                   0
+flavanoids                      0
+nonflavanoid_phenols            0
+proanthocyanins                 0
+color_intensity                 0
+hue                             0
+od280/od315_of_diluted_wines    0
+proline                         0
+target                          0
+dtype: int64
+
+=== Jumlah Outlier per Kolom (IQR) ===
+alcohol: 0 outliers
+malic_acid: 3 outliers
+ash: 3 outliers
+alcalinity_of_ash: 4 outliers
+magnesium: 4 outliers
+total_phenols: 0 outliers
+flavanoids: 0 outliers
+nonflavanoid_phenols: 0 outliers
+proanthocyanins: 2 outliers
+color_intensity: 4 outliers
+hue: 1 outliers
+od280/od315_of_diluted_wines: 0 outliers
+proline: 0 outliers
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dari output diatas bisa ditarik kesimpulan bahwa tidak ada missing value pada dataset. Sebagian besar fitur tidak memiliki outlier, namun outlier pada data belum tentu harus dihapus bisa diselidiki apakah nilai-nilai ini memang mewakili kasus khusus (misalnya anggur yang unik) atau kesalahan data.</p>
+</section>
+<section id="visualisasi-data">
+<h3>Visualisasi Data<a class="headerlink" href="#visualisasi-data" title="Link to this heading">#</a></h3>
+<p><strong>Visualisasi Dataset Wine</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df_wine</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total baris dataset ini adalah =&quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">df_wine</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total baris dataset ini adalah = 178
+</pre></div>
+</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -768,6 +859,7 @@ Successfully installed ucimlrepo-0.0.7
 <p>178 rows × 14 columns</p>
 </div></div></div>
 </div>
+<p><strong>Visualisasi Jumlah Sample Per kelas Wine</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -791,7 +883,7 @@ Successfully installed ucimlrepo-0.0.7
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2307/2160356347.py:13: FutureWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2603/2160356347.py:13: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
@@ -801,10 +893,10 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <img alt="_images/bd29914d475bc74e0de501c5cbd3493727dfa92cef87667df5b1c125f5c45732.png" src="_images/bd29914d475bc74e0de501c5cbd3493727dfa92cef87667df5b1c125f5c45732.png" />
 </div>
 </div>
+<p><strong>Visualisasi Distribusi Fitur dengan Histogram</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualisasi distribusi fitur dengan histogram</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="n">data</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Distribusi Fitur&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -816,6 +908,21 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </pre></div>
 </div>
 <img alt="_images/65c87e20beeded985b7aac0f3af44c60751b30fca9a67710a12638d44bd6938f.png" src="_images/65c87e20beeded985b7aac0f3af44c60751b30fca9a67710a12638d44bd6938f.png" />
+</div>
+</div>
+<p><strong>Visualisasi Boxplot untuk Deteksi Outlier</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">rot</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Boxplot untuk Deteksi Outlier&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c827bac44be42a76173a1dc1adb3a770132688131f83ed86d24d2849918c957f.png" src="_images/c827bac44be42a76173a1dc1adb3a770132688131f83ed86d24d2849918c957f.png" />
 </div>
 </div>
 </section>
@@ -933,7 +1040,7 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </div>
 </div>
 </div>
-<p>Pada data terdapat 178 baris dan 14 kolom</p>
+<p>Terdapat 178 baris dan 14 kolom pada dataset wine</p>
 </section>
 </section>
 </section>
@@ -941,12 +1048,11 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <h2>Preprocessing Data<a class="headerlink" href="#preprocessing-data" title="Link to this heading">#</a></h2>
 <section id="transformasi-data">
 <h3>Transformasi Data<a class="headerlink" href="#transformasi-data" title="Link to this heading">#</a></h3>
-<p>Dataset Wine memiliki label kelas (kolom target) yang berupa angka 0, 1, dan 2, yang mewakili tiga jenis wine berbeda. Angka-angka tersebut adalah representasi numerik dari kategori.</p>
-<p>Untuk memahami data lebih intuitif, kita bisa mengembalikan label numerik tersebut ke bentuk kategori teks yang merepresentasikan nama kelas wine.</p>
+<p>Dataset Wine ini memiliki label kelas (kolom target) yang berupa angka 0, 1, dan 2, yang mewakili tiga jenis wine berbeda. Angka-angka tersebut adalah representasi numerik dari kategori.</p>
+<p>Dari label kelas kolom target tersebut disini saya ubah menjadi label kategorikal Class1, Class2, dan Class3 untuk mempermudah interprestasi hasil klasifikasi.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_wine</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="c1"># Ambil dataset</span>
 <span class="n">wine_data</span> <span class="o">=</span> <span class="n">load_wine</span><span class="p">()</span>
@@ -957,86 +1063,593 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <span class="c1"># Tambahkan label numerik</span>
 <span class="n">data_before</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wine_data</span><span class="o">.</span><span class="n">target</span>
 
-<span class="c1"># Mapping nilai target ke nama kelas (misal: Wine Class_0, Class_1, Class_2)</span>
-<span class="n">target_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;Class_0&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Class_1&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Class_2&#39;</span><span class="p">}</span>
+<span class="c1"># Ubah target menjadi label kelas</span>
+<span class="n">target_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;Class1&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Class2&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Class3&#39;</span><span class="p">}</span>
 <span class="n">data_before</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_before</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">target_mapping</span><span class="p">)</span>
 
-<span class="c1"># Tampilkan 20 baris pertama</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_before</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    alcohol  malic_acid   ash  alcalinity_of_ash  magnesium  total_phenols  \
-0     14.23        1.71  2.43               15.6      127.0           2.80   
-1     13.20        1.78  2.14               11.2      100.0           2.65   
-2     13.16        2.36  2.67               18.6      101.0           2.80   
-3     14.37        1.95  2.50               16.8      113.0           3.85   
-4     13.24        2.59  2.87               21.0      118.0           2.80   
-5     14.20        1.76  2.45               15.2      112.0           3.27   
-6     14.39        1.87  2.45               14.6       96.0           2.50   
-7     14.06        2.15  2.61               17.6      121.0           2.60   
-8     14.83        1.64  2.17               14.0       97.0           2.80   
-9     13.86        1.35  2.27               16.0       98.0           2.98   
-10    14.10        2.16  2.30               18.0      105.0           2.95   
-11    14.12        1.48  2.32               16.8       95.0           2.20   
-12    13.75        1.73  2.41               16.0       89.0           2.60   
-13    14.75        1.73  2.39               11.4       91.0           3.10   
-14    14.38        1.87  2.38               12.0      102.0           3.30   
-15    13.63        1.81  2.70               17.2      112.0           2.85   
-16    14.30        1.92  2.72               20.0      120.0           2.80   
-17    13.83        1.57  2.62               20.0      115.0           2.95   
-18    14.19        1.59  2.48               16.5      108.0           3.30   
-19    13.64        3.10  2.56               15.2      116.0           2.70   
+<span class="c1"># Atur agar semua kolom tampil dalam satu baris horizontal</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.expand_frame_repr&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-    flavanoids  nonflavanoid_phenols  proanthocyanins  color_intensity   hue  \
-0         3.06                  0.28             2.29             5.64  1.04   
-1         2.76                  0.26             1.28             4.38  1.05   
-2         3.24                  0.30             2.81             5.68  1.03   
-3         3.49                  0.24             2.18             7.80  0.86   
-4         2.69                  0.39             1.82             4.32  1.04   
-5         3.39                  0.34             1.97             6.75  1.05   
-6         2.52                  0.30             1.98             5.25  1.02   
-7         2.51                  0.31             1.25             5.05  1.06   
-8         2.98                  0.29             1.98             5.20  1.08   
-9         3.15                  0.22             1.85             7.22  1.01   
-10        3.32                  0.22             2.38             5.75  1.25   
-11        2.43                  0.26             1.57             5.00  1.17   
-12        2.76                  0.29             1.81             5.60  1.15   
-13        3.69                  0.43             2.81             5.40  1.25   
-14        3.64                  0.29             2.96             7.50  1.20   
-15        2.91                  0.30             1.46             7.30  1.28   
-16        3.14                  0.33             1.97             6.20  1.07   
-17        3.40                  0.40             1.72             6.60  1.13   
-18        3.93                  0.32             1.86             8.70  1.23   
-19        3.03                  0.17             1.66             5.10  0.96   
-
-    od280/od315_of_diluted_wines  proline   target  
-0                           3.92   1065.0  Class_0  
-1                           3.40   1050.0  Class_0  
-2                           3.17   1185.0  Class_0  
-3                           3.45   1480.0  Class_0  
-4                           2.93    735.0  Class_0  
-5                           2.85   1450.0  Class_0  
-6                           3.58   1290.0  Class_0  
-7                           3.58   1295.0  Class_0  
-8                           2.85   1045.0  Class_0  
-9                           3.55   1045.0  Class_0  
-10                          3.17   1510.0  Class_0  
-11                          2.82   1280.0  Class_0  
-12                          2.90   1320.0  Class_0  
-13                          2.73   1150.0  Class_0  
-14                          3.00   1547.0  Class_0  
-15                          2.88   1310.0  Class_0  
-16                          2.65   1280.0  Class_0  
-17                          2.57   1130.0  Class_0  
-18                          2.82   1680.0  Class_0  
-19                          3.36    845.0  Class_0  
+<span class="c1"># Tampilkan semua data</span>
+<span class="c1"># print(data_before)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
+<section id="normalisai-data">
+<h3>Normalisai Data<a class="headerlink" href="#normalisai-data" title="Link to this heading">#</a></h3>
+<p>Normalisasi datase menggunakan StandarScaler</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span><span class="p">,</span> <span class="n">StandardScaler</span>
+
+<span class="c1"># Encode Kolom Target (Label Kelas Wine)</span>
+<span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">])</span>  <span class="c1"># Class1, Class2, Class3 → 0, 1, 2</span>
+
+<span class="c1"># Pisahkan Fitur dan Label</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>  <span class="c1"># fitur numerik</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>               <span class="c1"># label klasifikasi (kelas wine)</span>
+
+<span class="c1"># Scaling (Standarisasi Fitur)</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="split-data-training-dan-testing">
+<h3>Split Data Training dan Testing<a class="headerlink" href="#split-data-training-dan-testing" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X_scaled</span><span class="p">,</span>      <span class="c1"># fitur yang sudah di-scaling</span>
+    <span class="n">y</span><span class="p">,</span>             <span class="c1"># label target (kelas wine: 0, 1, 2)</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="c1"># 20% untuk data uji</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualisasi-data-setelah-preprocessing">
+<h3>Visualisasi Data Setelah Preprocessing<a class="headerlink" href="#visualisasi-data-setelah-preprocessing" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_wine_combined</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total baris dataset ini adalah =&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_wine_combined</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Visualisasi dataset wine setelah digabung dengan label target:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_wine_combined</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total baris dataset ini adalah = 178
+Visualisasi dataset wine setelah digabung dengan label target:
+ alcohol  malic_acid  ash  alcalinity_of_ash  magnesium  total_phenols  flavanoids  nonflavanoid_phenols  proanthocyanins  color_intensity   hue  od280/od315_of_diluted_wines  proline  target
+   14.23        1.71 2.43               15.6      127.0           2.80        3.06                  0.28             2.29         5.640000 1.040                          3.92   1065.0       0
+   13.20        1.78 2.14               11.2      100.0           2.65        2.76                  0.26             1.28         4.380000 1.050                          3.40   1050.0       0
+   13.16        2.36 2.67               18.6      101.0           2.80        3.24                  0.30             2.81         5.680000 1.030                          3.17   1185.0       0
+   14.37        1.95 2.50               16.8      113.0           3.85        3.49                  0.24             2.18         7.800000 0.860                          3.45   1480.0       0
+   13.24        2.59 2.87               21.0      118.0           2.80        2.69                  0.39             1.82         4.320000 1.040                          2.93    735.0       0
+   14.20        1.76 2.45               15.2      112.0           3.27        3.39                  0.34             1.97         6.750000 1.050                          2.85   1450.0       0
+   14.39        1.87 2.45               14.6       96.0           2.50        2.52                  0.30             1.98         5.250000 1.020                          3.58   1290.0       0
+   14.06        2.15 2.61               17.6      121.0           2.60        2.51                  0.31             1.25         5.050000 1.060                          3.58   1295.0       0
+   14.83        1.64 2.17               14.0       97.0           2.80        2.98                  0.29             1.98         5.200000 1.080                          2.85   1045.0       0
+   13.86        1.35 2.27               16.0       98.0           2.98        3.15                  0.22             1.85         7.220000 1.010                          3.55   1045.0       0
+   14.10        2.16 2.30               18.0      105.0           2.95        3.32                  0.22             2.38         5.750000 1.250                          3.17   1510.0       0
+   14.12        1.48 2.32               16.8       95.0           2.20        2.43                  0.26             1.57         5.000000 1.170                          2.82   1280.0       0
+   13.75        1.73 2.41               16.0       89.0           2.60        2.76                  0.29             1.81         5.600000 1.150                          2.90   1320.0       0
+   14.75        1.73 2.39               11.4       91.0           3.10        3.69                  0.43             2.81         5.400000 1.250                          2.73   1150.0       0
+   14.38        1.87 2.38               12.0      102.0           3.30        3.64                  0.29             2.96         7.500000 1.200                          3.00   1547.0       0
+   13.63        1.81 2.70               17.2      112.0           2.85        2.91                  0.30             1.46         7.300000 1.280                          2.88   1310.0       0
+   14.30        1.92 2.72               20.0      120.0           2.80        3.14                  0.33             1.97         6.200000 1.070                          2.65   1280.0       0
+   13.83        1.57 2.62               20.0      115.0           2.95        3.40                  0.40             1.72         6.600000 1.130                          2.57   1130.0       0
+   14.19        1.59 2.48               16.5      108.0           3.30        3.93                  0.32             1.86         8.700000 1.230                          2.82   1680.0       0
+   13.64        3.10 2.56               15.2      116.0           2.70        3.03                  0.17             1.66         5.100000 0.960                          3.36    845.0       0
+   14.06        1.63 2.28               16.0      126.0           3.00        3.17                  0.24             2.10         5.650000 1.090                          3.71    780.0       0
+   12.93        3.80 2.65               18.6      102.0           2.41        2.41                  0.25             1.98         4.500000 1.030                          3.52    770.0       0
+   13.71        1.86 2.36               16.6      101.0           2.61        2.88                  0.27             1.69         3.800000 1.110                          4.00   1035.0       0
+   12.85        1.60 2.52               17.8       95.0           2.48        2.37                  0.26             1.46         3.930000 1.090                          3.63   1015.0       0
+   13.50        1.81 2.61               20.0       96.0           2.53        2.61                  0.28             1.66         3.520000 1.120                          3.82    845.0       0
+   13.05        2.05 3.22               25.0      124.0           2.63        2.68                  0.47             1.92         3.580000 1.130                          3.20    830.0       0
+   13.39        1.77 2.62               16.1       93.0           2.85        2.94                  0.34             1.45         4.800000 0.920                          3.22   1195.0       0
+   13.30        1.72 2.14               17.0       94.0           2.40        2.19                  0.27             1.35         3.950000 1.020                          2.77   1285.0       0
+   13.87        1.90 2.80               19.4      107.0           2.95        2.97                  0.37             1.76         4.500000 1.250                          3.40    915.0       0
+   14.02        1.68 2.21               16.0       96.0           2.65        2.33                  0.26             1.98         4.700000 1.040                          3.59   1035.0       0
+   13.73        1.50 2.70               22.5      101.0           3.00        3.25                  0.29             2.38         5.700000 1.190                          2.71   1285.0       0
+   13.58        1.66 2.36               19.1      106.0           2.86        3.19                  0.22             1.95         6.900000 1.090                          2.88   1515.0       0
+   13.68        1.83 2.36               17.2      104.0           2.42        2.69                  0.42             1.97         3.840000 1.230                          2.87    990.0       0
+   13.76        1.53 2.70               19.5      132.0           2.95        2.74                  0.50             1.35         5.400000 1.250                          3.00   1235.0       0
+   13.51        1.80 2.65               19.0      110.0           2.35        2.53                  0.29             1.54         4.200000 1.100                          2.87   1095.0       0
+   13.48        1.81 2.41               20.5      100.0           2.70        2.98                  0.26             1.86         5.100000 1.040                          3.47    920.0       0
+   13.28        1.64 2.84               15.5      110.0           2.60        2.68                  0.34             1.36         4.600000 1.090                          2.78    880.0       0
+   13.05        1.65 2.55               18.0       98.0           2.45        2.43                  0.29             1.44         4.250000 1.120                          2.51   1105.0       0
+   13.07        1.50 2.10               15.5       98.0           2.40        2.64                  0.28             1.37         3.700000 1.180                          2.69   1020.0       0
+   14.22        3.99 2.51               13.2      128.0           3.00        3.04                  0.20             2.08         5.100000 0.890                          3.53    760.0       0
+   13.56        1.71 2.31               16.2      117.0           3.15        3.29                  0.34             2.34         6.130000 0.950                          3.38    795.0       0
+   13.41        3.84 2.12               18.8       90.0           2.45        2.68                  0.27             1.48         4.280000 0.910                          3.00   1035.0       0
+   13.88        1.89 2.59               15.0      101.0           3.25        3.56                  0.17             1.70         5.430000 0.880                          3.56   1095.0       0
+   13.24        3.98 2.29               17.5      103.0           2.64        2.63                  0.32             1.66         4.360000 0.820                          3.00    680.0       0
+   13.05        1.77 2.10               17.0      107.0           3.00        3.00                  0.28             2.03         5.040000 0.880                          3.35    885.0       0
+   14.21        4.04 2.44               18.9      111.0           2.85        2.65                  0.30             1.25         5.240000 0.870                          3.33   1080.0       0
+   14.38        3.59 2.28               16.0      102.0           3.25        3.17                  0.27             2.19         4.900000 1.040                          3.44   1065.0       0
+   13.90        1.68 2.12               16.0      101.0           3.10        3.39                  0.21             2.14         6.100000 0.910                          3.33    985.0       0
+   14.10        2.02 2.40               18.8      103.0           2.75        2.92                  0.32             2.38         6.200000 1.070                          2.75   1060.0       0
+   13.94        1.73 2.27               17.4      108.0           2.88        3.54                  0.32             2.08         8.900000 1.120                          3.10   1260.0       0
+   13.05        1.73 2.04               12.4       92.0           2.72        3.27                  0.17             2.91         7.200000 1.120                          2.91   1150.0       0
+   13.83        1.65 2.60               17.2       94.0           2.45        2.99                  0.22             2.29         5.600000 1.240                          3.37   1265.0       0
+   13.82        1.75 2.42               14.0      111.0           3.88        3.74                  0.32             1.87         7.050000 1.010                          3.26   1190.0       0
+   13.77        1.90 2.68               17.1      115.0           3.00        2.79                  0.39             1.68         6.300000 1.130                          2.93   1375.0       0
+   13.74        1.67 2.25               16.4      118.0           2.60        2.90                  0.21             1.62         5.850000 0.920                          3.20   1060.0       0
+   13.56        1.73 2.46               20.5      116.0           2.96        2.78                  0.20             2.45         6.250000 0.980                          3.03   1120.0       0
+   14.22        1.70 2.30               16.3      118.0           3.20        3.00                  0.26             2.03         6.380000 0.940                          3.31    970.0       0
+   13.29        1.97 2.68               16.8      102.0           3.00        3.23                  0.31             1.66         6.000000 1.070                          2.84   1270.0       0
+   13.72        1.43 2.50               16.7      108.0           3.40        3.67                  0.19             2.04         6.800000 0.890                          2.87   1285.0       0
+   12.37        0.94 1.36               10.6       88.0           1.98        0.57                  0.28             0.42         1.950000 1.050                          1.82    520.0       1
+   12.33        1.10 2.28               16.0      101.0           2.05        1.09                  0.63             0.41         3.270000 1.250                          1.67    680.0       1
+   12.64        1.36 2.02               16.8      100.0           2.02        1.41                  0.53             0.62         5.750000 0.980                          1.59    450.0       1
+   13.67        1.25 1.92               18.0       94.0           2.10        1.79                  0.32             0.73         3.800000 1.230                          2.46    630.0       1
+   12.37        1.13 2.16               19.0       87.0           3.50        3.10                  0.19             1.87         4.450000 1.220                          2.87    420.0       1
+   12.17        1.45 2.53               19.0      104.0           1.89        1.75                  0.45             1.03         2.950000 1.450                          2.23    355.0       1
+   12.37        1.21 2.56               18.1       98.0           2.42        2.65                  0.37             2.08         4.600000 1.190                          2.30    678.0       1
+   13.11        1.01 1.70               15.0       78.0           2.98        3.18                  0.26             2.28         5.300000 1.120                          3.18    502.0       1
+   12.37        1.17 1.92               19.6       78.0           2.11        2.00                  0.27             1.04         4.680000 1.120                          3.48    510.0       1
+   13.34        0.94 2.36               17.0      110.0           2.53        1.30                  0.55             0.42         3.170000 1.020                          1.93    750.0       1
+   12.21        1.19 1.75               16.8      151.0           1.85        1.28                  0.14             2.50         2.850000 1.280                          3.07    718.0       1
+   12.29        1.61 2.21               20.4      103.0           1.10        1.02                  0.37             1.46         3.050000 0.906                          1.82    870.0       1
+   13.86        1.51 2.67               25.0       86.0           2.95        2.86                  0.21             1.87         3.380000 1.360                          3.16    410.0       1
+   13.49        1.66 2.24               24.0       87.0           1.88        1.84                  0.27             1.03         3.740000 0.980                          2.78    472.0       1
+   12.99        1.67 2.60               30.0      139.0           3.30        2.89                  0.21             1.96         3.350000 1.310                          3.50    985.0       1
+   11.96        1.09 2.30               21.0      101.0           3.38        2.14                  0.13             1.65         3.210000 0.990                          3.13    886.0       1
+   11.66        1.88 1.92               16.0       97.0           1.61        1.57                  0.34             1.15         3.800000 1.230                          2.14    428.0       1
+   13.03        0.90 1.71               16.0       86.0           1.95        2.03                  0.24             1.46         4.600000 1.190                          2.48    392.0       1
+   11.84        2.89 2.23               18.0      112.0           1.72        1.32                  0.43             0.95         2.650000 0.960                          2.52    500.0       1
+   12.33        0.99 1.95               14.8      136.0           1.90        1.85                  0.35             2.76         3.400000 1.060                          2.31    750.0       1
+   12.70        3.87 2.40               23.0      101.0           2.83        2.55                  0.43             1.95         2.570000 1.190                          3.13    463.0       1
+   12.00        0.92 2.00               19.0       86.0           2.42        2.26                  0.30             1.43         2.500000 1.380                          3.12    278.0       1
+   12.72        1.81 2.20               18.8       86.0           2.20        2.53                  0.26             1.77         3.900000 1.160                          3.14    714.0       1
+   12.08        1.13 2.51               24.0       78.0           2.00        1.58                  0.40             1.40         2.200000 1.310                          2.72    630.0       1
+   13.05        3.86 2.32               22.5       85.0           1.65        1.59                  0.61             1.62         4.800000 0.840                          2.01    515.0       1
+   11.84        0.89 2.58               18.0       94.0           2.20        2.21                  0.22             2.35         3.050000 0.790                          3.08    520.0       1
+   12.67        0.98 2.24               18.0       99.0           2.20        1.94                  0.30             1.46         2.620000 1.230                          3.16    450.0       1
+   12.16        1.61 2.31               22.8       90.0           1.78        1.69                  0.43             1.56         2.450000 1.330                          2.26    495.0       1
+   11.65        1.67 2.62               26.0       88.0           1.92        1.61                  0.40             1.34         2.600000 1.360                          3.21    562.0       1
+   11.64        2.06 2.46               21.6       84.0           1.95        1.69                  0.48             1.35         2.800000 1.000                          2.75    680.0       1
+   12.08        1.33 2.30               23.6       70.0           2.20        1.59                  0.42             1.38         1.740000 1.070                          3.21    625.0       1
+   12.08        1.83 2.32               18.5       81.0           1.60        1.50                  0.52             1.64         2.400000 1.080                          2.27    480.0       1
+   12.00        1.51 2.42               22.0       86.0           1.45        1.25                  0.50             1.63         3.600000 1.050                          2.65    450.0       1
+   12.69        1.53 2.26               20.7       80.0           1.38        1.46                  0.58             1.62         3.050000 0.960                          2.06    495.0       1
+   12.29        2.83 2.22               18.0       88.0           2.45        2.25                  0.25             1.99         2.150000 1.150                          3.30    290.0       1
+   11.62        1.99 2.28               18.0       98.0           3.02        2.26                  0.17             1.35         3.250000 1.160                          2.96    345.0       1
+   12.47        1.52 2.20               19.0      162.0           2.50        2.27                  0.32             3.28         2.600000 1.160                          2.63    937.0       1
+   11.81        2.12 2.74               21.5      134.0           1.60        0.99                  0.14             1.56         2.500000 0.950                          2.26    625.0       1
+   12.29        1.41 1.98               16.0       85.0           2.55        2.50                  0.29             1.77         2.900000 1.230                          2.74    428.0       1
+   12.37        1.07 2.10               18.5       88.0           3.52        3.75                  0.24             1.95         4.500000 1.040                          2.77    660.0       1
+   12.29        3.17 2.21               18.0       88.0           2.85        2.99                  0.45             2.81         2.300000 1.420                          2.83    406.0       1
+   12.08        2.08 1.70               17.5       97.0           2.23        2.17                  0.26             1.40         3.300000 1.270                          2.96    710.0       1
+   12.60        1.34 1.90               18.5       88.0           1.45        1.36                  0.29             1.35         2.450000 1.040                          2.77    562.0       1
+   12.34        2.45 2.46               21.0       98.0           2.56        2.11                  0.34             1.31         2.800000 0.800                          3.38    438.0       1
+   11.82        1.72 1.88               19.5       86.0           2.50        1.64                  0.37             1.42         2.060000 0.940                          2.44    415.0       1
+   12.51        1.73 1.98               20.5       85.0           2.20        1.92                  0.32             1.48         2.940000 1.040                          3.57    672.0       1
+   12.42        2.55 2.27               22.0       90.0           1.68        1.84                  0.66             1.42         2.700000 0.860                          3.30    315.0       1
+   12.25        1.73 2.12               19.0       80.0           1.65        2.03                  0.37             1.63         3.400000 1.000                          3.17    510.0       1
+   12.72        1.75 2.28               22.5       84.0           1.38        1.76                  0.48             1.63         3.300000 0.880                          2.42    488.0       1
+   12.22        1.29 1.94               19.0       92.0           2.36        2.04                  0.39             2.08         2.700000 0.860                          3.02    312.0       1
+   11.61        1.35 2.70               20.0       94.0           2.74        2.92                  0.29             2.49         2.650000 0.960                          3.26    680.0       1
+   11.46        3.74 1.82               19.5      107.0           3.18        2.58                  0.24             3.58         2.900000 0.750                          2.81    562.0       1
+   12.52        2.43 2.17               21.0       88.0           2.55        2.27                  0.26             1.22         2.000000 0.900                          2.78    325.0       1
+   11.76        2.68 2.92               20.0      103.0           1.75        2.03                  0.60             1.05         3.800000 1.230                          2.50    607.0       1
+   11.41        0.74 2.50               21.0       88.0           2.48        2.01                  0.42             1.44         3.080000 1.100                          2.31    434.0       1
+   12.08        1.39 2.50               22.5       84.0           2.56        2.29                  0.43             1.04         2.900000 0.930                          3.19    385.0       1
+   11.03        1.51 2.20               21.5       85.0           2.46        2.17                  0.52             2.01         1.900000 1.710                          2.87    407.0       1
+   11.82        1.47 1.99               20.8       86.0           1.98        1.60                  0.30             1.53         1.950000 0.950                          3.33    495.0       1
+   12.42        1.61 2.19               22.5      108.0           2.00        2.09                  0.34             1.61         2.060000 1.060                          2.96    345.0       1
+   12.77        3.43 1.98               16.0       80.0           1.63        1.25                  0.43             0.83         3.400000 0.700                          2.12    372.0       1
+   12.00        3.43 2.00               19.0       87.0           2.00        1.64                  0.37             1.87         1.280000 0.930                          3.05    564.0       1
+   11.45        2.40 2.42               20.0       96.0           2.90        2.79                  0.32             1.83         3.250000 0.800                          3.39    625.0       1
+   11.56        2.05 3.23               28.5      119.0           3.18        5.08                  0.47             1.87         6.000000 0.930                          3.69    465.0       1
+   12.42        4.43 2.73               26.5      102.0           2.20        2.13                  0.43             1.71         2.080000 0.920                          3.12    365.0       1
+   13.05        5.80 2.13               21.5       86.0           2.62        2.65                  0.30             2.01         2.600000 0.730                          3.10    380.0       1
+   11.87        4.31 2.39               21.0       82.0           2.86        3.03                  0.21             2.91         2.800000 0.750                          3.64    380.0       1
+   12.07        2.16 2.17               21.0       85.0           2.60        2.65                  0.37             1.35         2.760000 0.860                          3.28    378.0       1
+   12.43        1.53 2.29               21.5       86.0           2.74        3.15                  0.39             1.77         3.940000 0.690                          2.84    352.0       1
+   11.79        2.13 2.78               28.5       92.0           2.13        2.24                  0.58             1.76         3.000000 0.970                          2.44    466.0       1
+   12.37        1.63 2.30               24.5       88.0           2.22        2.45                  0.40             1.90         2.120000 0.890                          2.78    342.0       1
+   12.04        4.30 2.38               22.0       80.0           2.10        1.75                  0.42             1.35         2.600000 0.790                          2.57    580.0       1
+   12.86        1.35 2.32               18.0      122.0           1.51        1.25                  0.21             0.94         4.100000 0.760                          1.29    630.0       2
+   12.88        2.99 2.40               20.0      104.0           1.30        1.22                  0.24             0.83         5.400000 0.740                          1.42    530.0       2
+   12.81        2.31 2.40               24.0       98.0           1.15        1.09                  0.27             0.83         5.700000 0.660                          1.36    560.0       2
+   12.70        3.55 2.36               21.5      106.0           1.70        1.20                  0.17             0.84         5.000000 0.780                          1.29    600.0       2
+   12.51        1.24 2.25               17.5       85.0           2.00        0.58                  0.60             1.25         5.450000 0.750                          1.51    650.0       2
+   12.60        2.46 2.20               18.5       94.0           1.62        0.66                  0.63             0.94         7.100000 0.730                          1.58    695.0       2
+   12.25        4.72 2.54               21.0       89.0           1.38        0.47                  0.53             0.80         3.850000 0.750                          1.27    720.0       2
+   12.53        5.51 2.64               25.0       96.0           1.79        0.60                  0.63             1.10         5.000000 0.820                          1.69    515.0       2
+   13.49        3.59 2.19               19.5       88.0           1.62        0.48                  0.58             0.88         5.700000 0.810                          1.82    580.0       2
+   12.84        2.96 2.61               24.0      101.0           2.32        0.60                  0.53             0.81         4.920000 0.890                          2.15    590.0       2
+   12.93        2.81 2.70               21.0       96.0           1.54        0.50                  0.53             0.75         4.600000 0.770                          2.31    600.0       2
+   13.36        2.56 2.35               20.0       89.0           1.40        0.50                  0.37             0.64         5.600000 0.700                          2.47    780.0       2
+   13.52        3.17 2.72               23.5       97.0           1.55        0.52                  0.50             0.55         4.350000 0.890                          2.06    520.0       2
+   13.62        4.95 2.35               20.0       92.0           2.00        0.80                  0.47             1.02         4.400000 0.910                          2.05    550.0       2
+   12.25        3.88 2.20               18.5      112.0           1.38        0.78                  0.29             1.14         8.210000 0.650                          2.00    855.0       2
+   13.16        3.57 2.15               21.0      102.0           1.50        0.55                  0.43             1.30         4.000000 0.600                          1.68    830.0       2
+   13.88        5.04 2.23               20.0       80.0           0.98        0.34                  0.40             0.68         4.900000 0.580                          1.33    415.0       2
+   12.87        4.61 2.48               21.5       86.0           1.70        0.65                  0.47             0.86         7.650000 0.540                          1.86    625.0       2
+   13.32        3.24 2.38               21.5       92.0           1.93        0.76                  0.45             1.25         8.420000 0.550                          1.62    650.0       2
+   13.08        3.90 2.36               21.5      113.0           1.41        1.39                  0.34             1.14         9.400000 0.570                          1.33    550.0       2
+   13.50        3.12 2.62               24.0      123.0           1.40        1.57                  0.22             1.25         8.600000 0.590                          1.30    500.0       2
+   12.79        2.67 2.48               22.0      112.0           1.48        1.36                  0.24             1.26        10.800000 0.480                          1.47    480.0       2
+   13.11        1.90 2.75               25.5      116.0           2.20        1.28                  0.26             1.56         7.100000 0.610                          1.33    425.0       2
+   13.23        3.30 2.28               18.5       98.0           1.80        0.83                  0.61             1.87        10.520000 0.560                          1.51    675.0       2
+   12.58        1.29 2.10               20.0      103.0           1.48        0.58                  0.53             1.40         7.600000 0.580                          1.55    640.0       2
+   13.17        5.19 2.32               22.0       93.0           1.74        0.63                  0.61             1.55         7.900000 0.600                          1.48    725.0       2
+   13.84        4.12 2.38               19.5       89.0           1.80        0.83                  0.48             1.56         9.010000 0.570                          1.64    480.0       2
+   12.45        3.03 2.64               27.0       97.0           1.90        0.58                  0.63             1.14         7.500000 0.670                          1.73    880.0       2
+   14.34        1.68 2.70               25.0       98.0           2.80        1.31                  0.53             2.70        13.000000 0.570                          1.96    660.0       2
+   13.48        1.67 2.64               22.5       89.0           2.60        1.10                  0.52             2.29        11.750000 0.570                          1.78    620.0       2
+   12.36        3.83 2.38               21.0       88.0           2.30        0.92                  0.50             1.04         7.650000 0.560                          1.58    520.0       2
+   13.69        3.26 2.54               20.0      107.0           1.83        0.56                  0.50             0.80         5.880000 0.960                          1.82    680.0       2
+   12.85        3.27 2.58               22.0      106.0           1.65        0.60                  0.60             0.96         5.580000 0.870                          2.11    570.0       2
+   12.96        3.45 2.35               18.5      106.0           1.39        0.70                  0.40             0.94         5.280000 0.680                          1.75    675.0       2
+   13.78        2.76 2.30               22.0       90.0           1.35        0.68                  0.41             1.03         9.580000 0.700                          1.68    615.0       2
+   13.73        4.36 2.26               22.5       88.0           1.28        0.47                  0.52             1.15         6.620000 0.780                          1.75    520.0       2
+   13.45        3.70 2.60               23.0      111.0           1.70        0.92                  0.43             1.46        10.680000 0.850                          1.56    695.0       2
+   12.82        3.37 2.30               19.5       88.0           1.48        0.66                  0.40             0.97        10.260000 0.720                          1.75    685.0       2
+   13.58        2.58 2.69               24.5      105.0           1.55        0.84                  0.39             1.54         8.660000 0.740                          1.80    750.0       2
+   13.40        4.60 2.86               25.0      112.0           1.98        0.96                  0.27             1.11         8.500000 0.670                          1.92    630.0       2
+   12.20        3.03 2.32               19.0       96.0           1.25        0.49                  0.40             0.73         5.500000 0.660                          1.83    510.0       2
+   12.77        2.39 2.28               19.5       86.0           1.39        0.51                  0.48             0.64         9.899999 0.570                          1.63    470.0       2
+   14.16        2.51 2.48               20.0       91.0           1.68        0.70                  0.44             1.24         9.700000 0.620                          1.71    660.0       2
+   13.71        5.65 2.45               20.5       95.0           1.68        0.61                  0.52             1.06         7.700000 0.640                          1.74    740.0       2
+   13.40        3.91 2.48               23.0      102.0           1.80        0.75                  0.43             1.41         7.300000 0.700                          1.56    750.0       2
+   13.27        4.28 2.26               20.0      120.0           1.59        0.69                  0.43             1.35        10.200000 0.590                          1.56    835.0       2
+   13.17        2.59 2.37               20.0      120.0           1.65        0.68                  0.53             1.46         9.300000 0.600                          1.62    840.0       2
+   14.13        4.10 2.74               24.5       96.0           2.05        0.76                  0.56             1.35         9.200000 0.610                          1.60    560.0       2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simpan ke file CSV</span>
+<span class="n">df_wine_combined</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;ddata_wine.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="modelling">
+<h2>Modelling<a class="headerlink" href="#modelling" title="Link to this heading">#</a></h2>
+<p>Modeling adalah proses membangun dan mengembangkan model matematis dan statistik untuk merepresentasikan struktur dan pola dalam suatu kumpulan data. Dalam konteks data mining, modeling digunakan untuk memahami hubungan antar variabel serta membuat prediksi terhadap data baru yang belum terlihat sebelumnya.</p>
+<p>Tujuan utama dari modeling adalah menghasilkan model yang akurat sehingga dapat digunakan untuk pengambilan keputusan yang berbasis data, baik dalam bentuk klasifikasi, regresi, clustering, atau jenis analisis lainnya. Proses ini biasanya melibatkan pemilihan algoritma yang sesuai, pelatihan model menggunakan data historis, dan evaluasi performa model.</p>
+<section id="modelling-klasifikasi-menggunakan-decision-tree">
+<h3>Modelling Klasifikasi Menggunakan Decision Tree<a class="headerlink" href="#modelling-klasifikasi-menggunakan-decision-tree" title="Link to this heading">#</a></h3>
+<p>Model klasifikasi Decision Tree Classifier merupakan salah satu metode supervised learning yang berbasis aturan dan struktur pohon bercabang. Setiap cabang pada pohon merepresentasikan keputusan berdasarkan nilai fitur, dan setiap daun pada pohon menunjukkan hasil klasifikasi.</p>
+<p><strong>Langkah-langkah modelling:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Pembagian dataset : data training dan data testing</strong></p></li>
+</ol>
+<p>Langkah pertama dalam pemodelan adalah membagi data menjadi dua bagian:</p>
+<ul class="simple">
+<li><p>Data Latih (Training Set): untuk melatih model.</p></li>
+<li><p>Data Uji (Testing Set): untuk mengevaluasi performa model terhadap data baru yang belum pernah dilihat sebelumnya.</p></li>
+</ul>
+<p>Dalam eksperimen ini, digunakan rasio 80% data latih dan 20% data uji menggunakan fungsi train_test_split.</p>
+<ol class="arabic simple" start="2">
+<li><p><strong>Pra-pemrosesan data</strong></p></li>
+</ol>
+<p>Sebelum data dimasukkan ke dalam model Decision Tree, dilakukan beberapa tahapan pra-pemrosesan:</p>
+<ul class="simple">
+<li><p>Label target (jenis wine) disandikan sebagai: Class1, Class2, dan Class3.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Pelatihan model</strong></p></li>
+</ol>
+<p>Setiap node pohon akan memecah data berdasarkan fitur yang paling mengurangi impurity (diukur dengan Gini Index atau Entropy).</p>
+<p>Pemisahan dilakukan secara rekursif hingga mencapai kedalaman maksimum (max_depth) atau data tidak bisa dipisahkan lebih lanjut.</p>
+<p>Misalnya, dalam model ini digunakan parameter:</p>
+<ul class="simple">
+<li><p>Kriteria: ‘gini’ (untuk mengukur kualitas split)</p></li>
+<li><p>Kedalaman maksimum (max_depth): 5 (untuk mencegah overfitting dan menjaga interpretabilitas model)</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Evaluasi model</strong></p></li>
+</ol>
+<p>Setelah model dilatih, selanjutnya menguji  performa model menggunakan metrik evaluasi berikut:</p>
+<ul class="simple">
+<li><p>Akurasi: persentase prediksi yang benar terhadap total data uji.</p></li>
+<li><p>Classification Report: meliputi precision, recall, dan F1-score untuk setiap kelas wine.</p></li>
+<li><p>Confusion Matrix: untuk melihat distribusi prediksi model terhadap label aktual.</p></li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><p><strong>Prediksi kelas wine</strong></p></li>
+</ol>
+<p>Setelah pelatihan dan evaluasi, model dapat digunakan untuk:</p>
+<ul class="simple">
+<li><p>Memprediksi jenis wine berdasarkan data laboratorium (fitur-fitur kimia).</p></li>
+<li><p>Mengidentifikasi fitur-fitur mana yang paling berpengaruh dalam membedakan jenis wine (misalnya flavanoids, color_intensity, atau alcohol).</p></li>
+</ul>
+<ol class="arabic simple" start="7">
+<li><p><strong>Visualisasi Pohon</strong></p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3. Training Decision Tree ===</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;gini&#39;</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 4. Evaluasi Model</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Akurasi:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Classification Report ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="n">target_names</span><span class="p">))</span>
+
+<span class="c1"># 7. Visualisasi Struktur Pohon Keputusan</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+
+<span class="c1"># Pastikan class_names bertipe list of strings</span>
+<span class="n">class_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Class1&#39;</span><span class="p">,</span> <span class="s1">&#39;Class2&#39;</span><span class="p">,</span> <span class="s1">&#39;Class3&#39;</span><span class="p">]</span>
+
+<span class="n">plot_tree</span><span class="p">(</span>
+    <span class="n">clf</span><span class="p">,</span>
+    <span class="n">feature_names</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="n">class_names</span><span class="o">=</span><span class="n">class_names</span><span class="p">,</span>
+    <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Pohon Keputusan Klasifikasi Jenis Wine&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># 3. Training Decision Tree ===</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;gini&#39;</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1"># 4. Evaluasi Model</span>
+
+<span class="ne">NameError</span>: name &#39;DecisionTreeClassifier&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="modelling-klasifikasi-menggunakan-gaussian-naive-bayes">
+<h3>Modelling Klasifikasi Menggunakan Gaussian Naive Bayes<a class="headerlink" href="#modelling-klasifikasi-menggunakan-gaussian-naive-bayes" title="Link to this heading">#</a></h3>
+<p>Gaussian Naive Bayes (GNB) adalah algoritma klasifikasi yang digunakan dalam machine learning untuk memprediksi kelas dari suatu data berdasarkan fitur-fitur numerik. GNB merupakan varian dari algoritma Naive Bayes yang mengasumsikan bahwa fitur-fitur memiliki distribusi normal (Gaussian).</p>
+<p>Pada pemodelan kali ini, tujuan utama adalah untuk mengklasifikasikan jenis wine berdasarkan kandungan kimia yang diukur dari setiap sampel, seperti kadar alkohol, magnesium, flavonoid, dan lain sebagainya. Dataset wine ini terdiri dari tiga kelas yang merepresentasikan jenis wine: Class1, Class2, dan Class3.</p>
+<p><strong>Langkah-langkah modelling:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Pembagian dataset : data training dan data testing</strong></p></li>
+</ol>
+<p>Langkah awal dalam proses pemodelan adalah membagi dataset menjadi dua bagian:</p>
+<p>Data Latih (Training set) digunakan untuk melatih model Gaussian Naive Bayes.</p>
+<p>Data Uji (Testing set) digunakan untuk mengevaluasi kemampuan generalisasi model terhadap data yang belum pernah dilihat sebelumnya.</p>
+<p>Dalam eksperimen ini, digunakan rasio 80% data training dan 20% data testing.</p>
+<ol class="arabic simple" start="2">
+<li><p><strong>Menghitung probabilitas awal (prior probability)</strong></p></li>
+</ol>
+<p>Selanjutnya hitung probabilitas awal (prior) untuk masing-masing kelas.</p>
+<ul class="simple">
+<li><p>Hitung jumlah data latih untuk setiap kelas (Class1, Class2, Class3).</p></li>
+<li><p>Bagi dengan total jumlah data latih.
+Nilai ini menunjukkan seberapa besar kemungkinan anggur termasuk ke dalam kelas tersebut tanpa melihat fitur apapun.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Menghitung rata-rata dan standar deviasi tiap fitur</strong></p></li>
+</ol>
+<p>Setelah prior diketahui, untuk setiap kelas (Class1, Class2, Class3), model menghitung:</p>
+<ul class="simple">
+<li><p>Rata-rata (mean) untuk masing-masing fitur numerik seperti alcohol, flavanoids, proline, dll.</p></li>
+<li><p>Standar deviasi (standard deviation) dari setiap fitur pada kelas tersebut.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Menghitung distribusi gaussian</strong></p></li>
+</ol>
+<p>Distribusi ini digunakan untuk menghitung seberapa besar kemungkinan nilai fitur tersebut muncul dalam sebuah kelas.</p>
+<p>Nantinya setiap nilai fitur dimasukkan ke dalam rumus distribusi Gaussian di bawah ini:</p>
+<div class="math notranslate nohighlight">
+\[
+  P(x|\mu,\sigma) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \right)
+  \]</div>
+<p>dimana:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x\)</span>: nilai fitur input</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mu\)</span>: rata-rata fitur pada kelas tertentu</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma\)</span>: standar deviasi fitur pada kelas tertentu</p></li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><p><strong>Menghitung posterior probability</strong></p></li>
+</ol>
+<p>Dengan mengalikan semua hasil distribusi Gaussian dan dikalikan dengan prior dari kelas, diperoleh nilai posterior probability untuk masing-masing kelas:</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Posterior} = P(x_1|C_i) \cdot P(x_2|C_i) \cdot \ldots \cdot P(x_n|C_i) \cdot P(C_i)
+  \]</div>
+<p>dimana:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(P(x_k|C_i)\)</span>: hasil distribusi Gaussian dari fitur ke-k pada kelas <span class="math notranslate nohighlight">\(C_i\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(P(C_i)\)</span>: prior probability dari kelas <span class="math notranslate nohighlight">\(C_i\)</span></p></li>
+</ul>
+<p>Model kemudian akan memilih kelas dengan nilai posterior tertinggi sebagai prediksi akhir.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+<span class="c1"># Latih model Gaussian Naive Bayes</span>
+<span class="n">gnb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">gnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Evaluasi hasil prediksi</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">gnb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Akurasi:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Classification Report ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="n">target_names</span><span class="p">))</span>
+
+<span class="c1"># Confusion Matrix</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">gnb</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span>
+            <span class="n">xticklabels</span><span class="o">=</span><span class="n">le</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span>
+            <span class="n">yticklabels</span><span class="o">=</span><span class="n">le</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Actual&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix - Naive Bayes (Wine Dataset)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi: 1.0
+
+=== Classification Report ===
+              precision    recall  f1-score   support
+
+      Class1       1.00      1.00      1.00        14
+      Class2       1.00      1.00      1.00        14
+      Class3       1.00      1.00      1.00         8
+
+    accuracy                           1.00        36
+   macro avg       1.00      1.00      1.00        36
+weighted avg       1.00      1.00      1.00        36
+</pre></div>
+</div>
+<img alt="_images/e4978544e7571643b9c55c7ab45c238dd59d786f9ebe64931936efcbcbf5ecc4.png" src="_images/e4978544e7571643b9c55c7ab45c238dd59d786f9ebe64931936efcbcbf5ecc4.png" />
+</div>
+</div>
+</section>
+<section id="modelling-klasifikasi-menggunakan-k-nearest-neighbor-k-nn">
+<h3>Modelling Klasifikasi Menggunakan K-Nearest Neighbor (K-NN)<a class="headerlink" href="#modelling-klasifikasi-menggunakan-k-nearest-neighbor-k-nn" title="Link to this heading">#</a></h3>
+<p>Model K-Nearest Neighbors (KNN) digunakan dalam pemodelan ini untuk memprediksi jenis/kategori wine berdasarkan berbagai kandungan kimiawi dalam sampel, seperti kadar alkohol, magnesium, flavonoid, dan parameter lainnya.</p>
+<p>KNN adalah metode pembelajaran berbasis instance (instance-based learning) yang tidak membentuk model eksplisit. Prediksi dilakukan dengan melihat “tetangga” terdekat dari data yang ingin diklasifikasikan di ruang fitur.</p>
+<p><strong>Langkah-langkah modelling:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Pembagian dataset: training dan testing</strong></p></li>
+</ol>
+<p>Langkah awal dalam proses pemodelan adalah membagi dataset menjadi dua bagian:</p>
+<ul class="simple">
+<li><p>Data Latih (Training set) digunakan sebagai referensi (tetangga-tetangga) untuk klasifikasi.</p></li>
+<li><p>Data Uji (Testing set) igunakan untuk menguji performa model terhadap data baru.</p></li>
+</ul>
+<p>Dalam eksperimen ini, digunakan rasio 80% data training dan 20% data testing.</p>
+<ol class="arabic simple" start="2">
+<li><p><strong>Pra-pemrosesan data</strong></p></li>
+</ol>
+<p>Agar algoritma KNN bekerja secara optimal, dilakukan beberapa tahapan pra-pemrosesan:</p>
+<ol class="arabic simple">
+<li><p>Encoding Label Kelas (Target):</p></li>
+</ol>
+<ul class="simple">
+<li><p>Label kelas (target) pada dataset Wine berupa angka 0, 1, dan 2, yang mewakili tiga jenis wine: Class1, Class2, dan Class3.</p></li>
+<li><p>Label ini dapat dikonversi ke bentuk string untuk interpretasi, lalu dikembalikan ke bentuk numerik untuk proses pemodelan.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Scaling / Normalisasi:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Fitur numerik seperti alcohol, flavanoids, proline, dan lain-lain memiliki skala yang berbeda-beda.</p></li>
+<li><p>Karena KNN sangat sensitif terhadap skala fitur, maka digunakan StandardScaler untuk menstandarkan data agar setiap fitur memiliki distribusi seragam (mean = 0 dan std = 1).</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Konsep kerja knn</strong></p></li>
+</ol>
+<p>Tidak seperti model prediktif berbasis fungsi, KNN hanya menyimpan data latih dan membuat keputusan berdasarkan jarak:</p>
+<ol class="arabic simple">
+<li><p>Hitung jarak (biasanya Euclidean) dari data uji ke seluruh data latih.</p></li>
+<li><p>Ambil k tetangga terdekat berdasarkan jarak tersebut.</p></li>
+<li><p>Lakukan voting mayoritas: kelas yang paling sering muncul di antara tetangga tersebut menjadi prediksi.</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Contoh:
+
+Jika k = 5 dan 3 dari 5 tetangga terdekat merupakan Class1, maka prediksi untuk data tersebut adalah Class1.
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p><strong>Evaluasi model</strong></p></li>
+</ol>
+<p>Untuk mengukur performa model KNN, dilakukan evaluasi menggunakan:</p>
+<p>Akurasi: rasio jumlah prediksi benar terhadap total prediksi.</p>
+<p>Classification Report: mencakup metrik precision, recall, dan F1-score untuk setiap kelas.</p>
+<p>Confusion Matrix: menunjukkan detail jumlah prediksi benar dan salah dari masing-masing kelas.</p>
+<p>Eksperimen juga dapat dilakukan dengan berbagai nilai k (misalnya 3, 5, 7) untuk mencari parameter k terbaik yang menghasilkan akurasi maksimal.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="c1"># Latih model KNN</span>
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Evaluasi model</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Akurasi:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Classification Report ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="n">target_names</span><span class="p">))</span>
+
+<span class="c1"># Confusion Matrix</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">knn</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span>
+    <span class="n">cm</span><span class="p">,</span>
+    <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span>
+    <span class="n">xticklabels</span><span class="o">=</span><span class="n">le</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span>
+    <span class="n">yticklabels</span><span class="o">=</span><span class="n">le</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;YlGnBu&#39;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Actual&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix - KNN (Wine Dataset)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi: 0.9444444444444444
+
+=== Classification Report ===
+              precision    recall  f1-score   support
+
+      Class1       0.93      1.00      0.97        14
+      Class2       1.00      0.86      0.92        14
+      Class3       0.89      1.00      0.94         8
+
+    accuracy                           0.94        36
+   macro avg       0.94      0.95      0.94        36
+weighted avg       0.95      0.94      0.94        36
+</pre></div>
+</div>
+<img alt="_images/0215a06e8af20896bb0f7572c8d45ea3b2b8439d912215c4033da915b7bb596b.png" src="_images/0215a06e8af20896bb0f7572c8d45ea3b2b8439d912215c4033da915b7bb596b.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="evaluasi-data">
+<h2>Evaluasi Data<a class="headerlink" href="#evaluasi-data" title="Link to this heading">#</a></h2>
+<p>Dari hasil evaluasi yang telah dilakukan terhadap tiga model klasifikasi pada dataset Wine, diperoleh akurasi sebagai berikut:</p>
+<p>Decision Tree = 94,44%</p>
+<p>Gaussian Naive Bayes = 100,00%</p>
+<p>K-Nearest Neighbor (KNN) = 94,44%</p>
+<p>Berdasarkan nilai akurasi tersebut dapat disimpulkan bahwa Gaussian Naive Bayes menunjukkan performa paling stabil dan akurat pada semua metrik.</p>
+<p>Decision Tree dan KNN memiliki performa hampir setara dari sisi akurasi, namun keduanya menunjukkan perbedaan kecil dalam mengenali Class2 dan Class3.</p>
 </section>
 </section>
 
@@ -1097,6 +1710,7 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">Data Understanding</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pengumpulan-data">Pengumpulan Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data">Eksplorasi Data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data">Visualisasi Data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-fitur-dan-variabel">Penjelasan Fitur dan Variabel</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variabel-independen">Variabel Independen</a></li>
@@ -1107,8 +1721,18 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data">Preprocessing Data</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transformasi-data">Transformasi Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisai-data">Normalisai Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#split-data-training-dan-testing">Split Data Training dan Testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data-setelah-preprocessing">Visualisasi Data Setelah Preprocessing</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling">Modelling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling-klasifikasi-menggunakan-decision-tree">Modelling Klasifikasi Menggunakan Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling-klasifikasi-menggunakan-gaussian-naive-bayes">Modelling Klasifikasi Menggunakan Gaussian Naive Bayes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelling-klasifikasi-menggunakan-k-nearest-neighbor-k-nn">Modelling Klasifikasi Menggunakan K-Nearest Neighbor (K-NN)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluasi-data">Evaluasi Data</a></li>
 </ul>
   </nav></div>
 
